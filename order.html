@@ -9,32 +9,12 @@
             --primary: #000;
             --bg: #f4f4f4;
             --card: #ffffff;
-            --accent: #25D366; /* Цвет кнопки WhatsApp */
+            --accent: #25D366; /* Зеленый цвет */
             --border: #ddd;
-            --text-secondary: #666;
         }
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg);
-            color: #333;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; }
         h1 { margin: 0 0 10px; color: var(--primary); font-size: 2rem; }
         p.subtitle { color: #666; max-width: 600px; margin: 0 auto; }
 
@@ -42,106 +22,52 @@
         
         .form-group { margin-bottom: 25px; }
         .form-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: block;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 8px;
-            width: fit-content;
-        }
-        .hint {
-            font-size: 0.85rem;
-            color: #888;
-            margin-top: 4px;
-            display: block;
+            font-size: 1.1rem; font-weight: bold; color: var(--primary); margin-bottom: 15px;
+            display: block; border-bottom: 2px solid var(--accent); padding-bottom: 8px; width: fit-content;
         }
 
         label { display: block; margin-bottom: 8px; font-weight: 500; color: #444; }
         input[type="text"], input[type="date"], select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: border 0.2s;
+            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px;
+            font-size: 1rem; box-sizing: border-box; transition: border 0.2s;
         }
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; }
 
-        /* Сетка для вариантов */
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 10px;
-        }
+        /* СЕТКА ДЛЯ ВАРИАНТОВ */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+        
+        /* СТИЛЬ КНОПКИ-ВАРИАНТА */
         .option-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 8px;
-            border: 1px solid transparent;
-            border-radius: 6px;
+            display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px;
+            border: 1px solid transparent; border-radius: 6px; background: transparent;
         }
         .option-item:hover { background: #f9f9f9; }
-        .option-item input { display: none; }
-        .option-item span { cursor: pointer; }
+        .option-item input { display: none; } /* Скрываем стандартный чекбокс/радио */
+        
+        /* ГЛАВНОЕ: ПОДЦВЕТКА ВЫБРАННОГО ВАРИАНТА */
         .option-item.selected {
-            background: #e8f5e9;
-            border-color: var(--accent);
-            color: var(--primary);
+            background: #e8f5e9; /* Светло-зеленый фон */
+            border-color: var(--accent); /* Зеленая рамка */
+            color: var(--primary); /* Темный текст */
+            font-weight: bold;
         }
 
         textarea { resize: vertical; min-height: 80px; }
 
-        .actions {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
+        .actions { margin-top: 40px; display: flex; gap: 20px; flex-wrap: wrap; }
+        button { padding: 15px 30px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: transform 0.1s; }
         button:active { transform: scale(0.98); }
 
-        .btn-submit {
-            background-color: var(--primary);
-            color: white;
-            flex: 1;
-            min-width: 200px;
-        }
-        .btn-copy {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            min-width: 180px;
-        }
+        .btn-submit { background-color: var(--primary); color: white; flex: 1; min-width: 200px; }
+        .btn-copy { background-color: transparent; border: 2px solid var(--primary); color: var(--primary); min-width: 180px; }
         .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-copy:disabled { opacity: 0.5; cursor: not-allowed; }
 
         #result-area {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f0f0f0;
-            border-radius: 8px;
-            display: none; /* Скрыто пока не нажали кнопку */
-            white-space: pre-wrap; /* Сохраняет переносы строк */
-            font-family: monospace;
-            color: #333;
+            margin-top: 30px; padding: 20px; background: #f0f0f0; border-radius: 8px;
+            display: none; white-space: pre-wrap; font-family: monospace; color: #333;
             border-left: 5px solid var(--accent);
         }
-        
         footer { text-align: center; padding: 40px 20px; color: #888; font-size: 0.9rem; }
     </style>
 </head>
@@ -150,7 +76,7 @@
 <div class="container">
     <header>
         <h1>📝 Анкета для гравировки</h1>
-        <p class="subtitle">Заполни все поля, чтобы мы сделали идеальный термос. Внизу нажми «Получить результат», скопируй текст и отправь на <b>golovin.evgenii@gmail.com</b>.</p>
+        <p class="subtitle">Заполни все поля. Выбирай варианты — они будут подсвечиваться зеленым. Внизу нажми «Получить результат».</p>
     </header>
 
     <form id="engravingForm">
@@ -166,7 +92,7 @@
                 <label class="option-item"><input type="radio" name="recipient_type" value="Другу"> Друг</label>
                 <label class="option-item"><input type="radio" name="recipient_type" value="Папе"> Папа</label>
                 <label class="option-item"><input type="radio" name="recipient_type" value="Маме"> Мама</label>
-                <label class="option-item"><input type="radio" name="recipient_type" value="Тренеру по футболу"> Тренер по футболу</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Тренеру по футболу"> Тренер</label>
                 <label class="option-item"><input type="radio" name="recipient_type" value="Другое"> Другое</label>
             </div>
             <input type="text" name="recipient_other" placeholder="Уточните (если выбрано 'Другое')" style="margin-top:10px;">
@@ -205,8 +131,8 @@
                 <label class="option-item"><input type="radio" name="occasion" value="23 февраля"> 23 февраля</label>
                 <label class="option-item"><input type="radio" name="occasion" value="8 марта"> 8 марта</label>
                 <label class="option-item"><input type="radio" name="occasion" value="Новый год"> Новый год</label>
-                <label class="option-item"><input type="radio" name="occasion" value="Корпоративный подарок"> Корпоративный подарок</label>
-                <label class="option-item"><input type="radio" name="occasion" value="Просто так"> Просто так, без повода</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Корпоративный подарок"> Корпоратив</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Просто так"> Просто так</label>
                 <label class="option-item"><input type="radio" name="occasion" value="Профессиональный праздник"> Проф. праздник</label>
                 <label class="option-item"><input type="radio" name="occasion" value="Годовщина"> Годовщина</label>
                 <label class="option-item"><input type="radio" name="occasion" value="Другое"> Другое</label>
@@ -214,41 +140,39 @@
             <input type="text" name="occasion_other" placeholder="Какой именно повод?" style="margin-top:10px;">
         </div>
 
-        <!-- БЛОК 3: ЛИЧНОСТЬ И СТИЛЬ -->
+        <!-- БЛОК 3: ЛИЧНОСТЬ -->
         <div class="form-group">
-            <span class="form-title">3. Характер и стиль общения</span>
+            <span class="form-title">3. Характер и стиль</span>
+            <label>Как его ласково называют?</label>
+            <input type="text" name="nickname" placeholder="Например: Михалыч, Босс">
             
-            <label>Как его ласково/в шутку называют свои?</label>
-            <input type="text" name="nickname" placeholder="Например: Михалыч, Босс, Батя">
-            <span class="hint">(Например: Алексей, Михалыч, Босс, Батя)</span>
-
-            <label style="margin-top: 15px;">Профессия / Чем занимается сейчас?</label>
-            <input type="text" name="profession" placeholder="Например: Инженер, IT-директор">
+            <label style="margin-top: 15px;">Профессия сейчас:</label>
+            <input type="text" name="profession" placeholder="Инженер, IT-директор">
 
             <label style="margin-top: 15px;">Чем раньше занимался?</label>
-            <input type="text" name="past_job" placeholder="Например: Был военным, работал в банке">
+            <input type="text" name="past_job" placeholder="Был военным, работал в банке">
 
-            <label style="margin-top: 15px;">Есть ли любимая марка машины?</label>
-            <input type="text" name="car_brand" placeholder="Например: Toyota, BMW, УАЗ">
+            <label style="margin-top: 15px;">Любимая марка машины?</label>
+            <input type="text" name="car_brand" placeholder="Toyota, BMW">
 
-            <label style="margin-top: 15px;">Какой стиль надписи нужен?</label>
+            <label style="margin-top: 15px;">Стиль надписи:</label>
             <div class="options-grid">
                 <label class="option-item"><input type="radio" name="style" value="С юмором"> С юмором</label>
-                <label class="option-item"><input type="radio" name="style" value="С лёгким сарказмом"> С лёгким сарказмом</label>
+                <label class="option-item"><input type="radio" name="style" value="С сарказмом"> С сарказмом</label>
                 <label class="option-item"><input type="radio" name="style" value="Мотивирующий"> Мотивирующий</label>
-                <label class="option-item"><input type="radio" name="style" value="Строгий / статусный"> Строгий / статусный</label>
+                <label class="option-item"><input type="radio" name="style" value="Строгий"> Строгий</label>
                 <label class="option-item"><input type="radio" name="style" value="Минимализм"> Минимализм</label>
                 <label class="option-item"><input type="radio" name="style" value="Про хобби"> Про хобби</label>
-                <label class="option-item"><input type="radio" name="style" value="Семейный / тёплый"> Семейный / тёплый</label>
+                <label class="option-item"><input type="radio" name="style" value="Тёплый"> Тёплый</label>
                 <label class="option-item"><input type="radio" name="style" value="Цитата"> Цитата</label>
                 <label class="option-item"><input type="radio" name="style" value="Другое"> Другое</label>
             </div>
-            <input type="text" name="style_other" placeholder="Опишите свой вариант стиля" style="margin-top:10px;">
+            <input type="text" name="style_other" placeholder="Опишите стиль" style="margin-top:10px;">
 
-            <label style="margin-top: 15px;">Насколько допустим юмор?</label>
+            <label style="margin-top: 15px;">Юмор:</label>
             <select name="humor_level">
                 <option value="Можно смело шутить"> Можно смело шутить</option>
-                <option value="Лёгкий, интеллигентный юмор"> Лёгкий, интеллигентный юмор</option>
+                <option value="Лёгкий юмор"> Лёгкий юмор</option>
                 <option value="Без шуток"> Без шуток</option>
             </select>
         </div>
@@ -259,24 +183,29 @@
             <div class="options-grid">
                 <label class="option-item"><input type="checkbox" name="traits" value="Трудоголик"> Трудоголик</label>
                 <label class="option-item"><input type="checkbox" name="traits" value="Лидер"> Лидер</label>
-                <label class="option-item"><input type="checkbox" name="traits" value="Серьезный, строгий, сдержанный"> Серьезный, строгий</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Серьезный"> Серьезный</label>
                 <label class="option-item"><input type="checkbox" name="traits" value="Стратег"> Стратег</label>
                 <label class="option-item"><input type="checkbox" name="traits" value="Перфекционист"> Перфекционист</label>
-                <label class="option-item"><input type="checkbox" name="traits" value="Душа компании, вечно шутит"> Душа компании</label>
-                <label class="option-item"><input type="checkbox" name="traits" value="Романтик, ценит заботу"> Романтик</label>
-                <label class="option-item"><input type="checkbox" name="traits" value="Спокойный философ / интроверт"> Спокойный философ</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Душа компании"> Душа компании</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Романтик"> Романтик</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Философ"> Философ</label>
                 <label class="option-item"><input type="checkbox" name="traits" value="Другое"> Другое</label>
             </div>
             <input type="text" name="traits_other" placeholder="Напишите свою черту" style="margin-top:10px;">
         </div>
-
         <!-- БЛОК 5: УВЛЕЧЕНИЯ -->
         <div class="form-group">
-            <span class="form-title">5. Увлечения и детали</span>
+            <span class="form-title">5. Увлечения</span>
             <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">Отметьте всё, что подходит:</p>
             <div class="options-grid">
                 <label class="option-item"><input type="checkbox" name="interests" value="IT / программирование"> IT / программирование</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Бизнес"> Бизнес</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Автомобили"> Автомобили</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Рыбалка"> Рыбалка</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Охота"> Охота</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Туризм"> Туризм</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Спорт"> Спорт</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Кофе"> Кофе</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Чай"> Чай</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Дача / Сад"> Дача / Сад</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Стройка"> Стройка</label>
@@ -291,11 +220,11 @@
                 <label class="option-item"><input type="checkbox" name="interests" value="Фитнес"> Фитнес</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="ЗОЖ"> ЗОЖ</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Путешествия"> Путешествия</label>
-                <label class="option-item"><input type="checkbox" name="interests" value="Пьет кофе/чай в дороге"> Пьет кофе/чай по дороге на работу</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Пьет кофе/чай в дороге"> Пьет кофе/чай по дороге</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Свой дом"> Свой дом</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Другое"> Другое</label>
             </div>
-            <input type="text" name="interests_other" placeholder="Напишите свои увлечения" style="margin-top:10px;">
+            <input type="text" name="interests_other" placeholder="Напишите свои увлечения (если выбрали 'Другое')" style="margin-top:10px; width: 100%;">
         </div>
 
         <!-- БЛОК 6: ФОРМАТ И ИКОНКА -->
@@ -310,16 +239,20 @@
             </div>
 
             <label style="margin-top: 15px;">Нужно ли добавить символ / иконку?</label>
-            <select name="icon_needed">
+            <select name="icon_needed" id="iconSelect">
                 <option value="Нет"> Нет, только текст</option>
                 <option value="Да, предложите варианты"> Да, предложите варианты</option>
                 <option value="Хочу конкретную иконку"> Хочу конкретную иконку</option>
             </select>
-            <input type="text" name="icon_custom" placeholder="Какая именно иконка? (например: корона, якорь, код, машина)" style="margin-top:10px; display:none;">
+            
+            <!-- Это поле скрыто по умолчанию и появится только при выборе "Хочу конкретную" -->
+            <input type="text" name="icon_custom" id="iconCustom" placeholder="Какая именно иконка? (например: корона, якорь)" style="margin-top:10px; display:none; width: 100%;">
             
             <script>
-                const iconSelect = document.querySelector('select[name="icon_needed"]');
-                const iconCustom = document.querySelector('input[name="icon_custom"]');
+                // Логика показа поля для конкретной иконки
+                const iconSelect = document.getElementById('iconSelect');
+                const iconCustom = document.getElementById('iconCustom');
+                
                 if(iconSelect && iconCustom) {
                     iconSelect.addEventListener('change', () => {
                         if(iconSelect.value === 'Хочу конкретную иконку') {
@@ -328,6 +261,7 @@
                         } else {
                             iconCustom.style.display = 'none';
                             iconCustom.required = false;
+                            iconCustom.value = ''; // Очищаем, если передумали
                         }
                     });
                 }
@@ -350,6 +284,43 @@
 </footer>
 
 <script>
+    // --- ГЛАВНЫЙ СКРИПТ: ПОДЦВЕТКА И СБОР ДАННЫХ ---
+
+    // 1. Подсветка выбранных вариантов (зеленым) при клике
+    document.addEventListener('DOMContentLoaded', () => {
+        const options = document.querySelectorAll('.option-item');
+        
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const input = this.querySelector('input');
+                if (!input) return;
+                
+                const name = input.name;
+                
+                // Если это радио-кнопка (один выбор из группы)
+                if (input.type === 'radio') {
+                    // Сначала убираем выделение у всех элементов с таким же именем
+                    const group = document.querySelectorAll(`input[name="${name}"]`);
+                    group.forEach(item => {
+                        const label = item.closest('.option-item');
+                        if(label) label.classList.remove('selected');
+                    });
+                    // Потом добавляем выделение текущему
+                    this.classList.add('selected');
+                } 
+                // Если это чекбокс (можно выбрать много)
+                else if (input.type === 'checkbox') {
+                    if (input.checked) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+                }
+            });
+        });
+    });
+
+    // 2. Функция сбора данных и вывода результата
     function getCheckedValues(name) {
         const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
         return Array.from(checkboxes).map(cb => cb.parentElement.textContent.trim());
@@ -366,6 +337,7 @@
         let traitsText = traits.length ? traits.join(', ') : 'Не указано';
         let interestsText = interests.length ? interests.join(', ') : 'Не указано';
 
+        // Логика для иконки
         const iconText = obj.icon_needed === 'Хочу конкретную иконку' ? obj.icon_custom : 
                           (obj.icon_needed === 'Да, предложите варианты' ? 'Нужна иконка (предложите)' : 'Без иконки');
 
@@ -408,6 +380,7 @@ ${obj.interests_other ? 'Дополнительно: ' + obj.interests_other : '
         document.getElementById('copyBtn').disabled = false;
     }
 
+    // 3. Функция копирования в буфер обмена
     function copyResult() {
         const text = document.getElementById('result-area').textContent;
         navigator.clipboard.writeText(text).then(() => {
