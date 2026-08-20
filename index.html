@@ -18,9 +18,34 @@
         .stat-label { font-size: 0.9rem; color: #888; }
 
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
-        .card { background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s; text-align: center; }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 350px; object-fit: cover; display: block; }
+        
+        /* Улучшенные стили для карточек */
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+            border-radius: 12px 12px 0 0;
+            transition: transform 0.3s;
+        }
+        .card:hover img {
+            transform: scale(1.02);
+        }
+
         .card-info { padding: 20px; }
         .card h3 { margin: 0 0 10px; color: var(--primary); }
         .card p { color: #555; margin-bottom: 15px; font-size: 0.95rem; }
@@ -67,35 +92,38 @@
         <div class="card">
             <img src="m1.jpg" alt="Макет 1">
             <div class="card-info">
-                <h3>Брутальный</h3>
-                <p>Массивные буквы, максимум контраста. Для тех, кто ценит силу и лаконичность.</p>
+                <h3>Макет 1</h3>
+                <p>Вариант дизайна №1. Оцени композицию и читаемость гравировки.</p>
                 <button class="vote-btn" onclick="vote(1)">За этот!</button>
             </div>
         </div>
+
         <!-- МАКЕТ 2 -->
         <div class="card">
             <img src="m2.jpg" alt="Макет 2">
             <div class="card-info">
-                <h3>Арт-каллиграфия</h3>
-                <p>Живой штрих, будто кистью. Много эмоций и характера.</p>
+                <h3>Макет 2</h3>
+                <p>Вариант дизайна №2. Оцени композицию и читаемость гравировки.</p>
                 <button class="vote-btn" onclick="vote(2)">За этот!</button>
             </div>
         </div>
+
         <!-- МАКЕТ 3 -->
         <div class="card">
             <img src="m3.jpg" alt="Макет 3">
             <div class="card-info">
-                <h3>Символический</h3>
-                <p>Цитата + силуэт рогов. Метафора, которая цепляет взгляд.</p>
+                <h3>Макет 3</h3>
+                <p>Вариант дизайна №3. Оцени композицию и читаемость гравировки.</p>
                 <button class="vote-btn" onclick="vote(3)">За этот!</button>
             </div>
         </div>
+
         <!-- МАКЕТ 4 -->
         <div class="card">
             <img src="m4.jpg" alt="Макет 4">
             <div class="card-info">
-                <h3>Минимализм</h3>
-                <p>Максимум воздуха, только суть. Спокойный и стильный вариант.</p>
+                <h3>Макет 4</h3>
+                <p>Вариант дизайна №4. Оцени композицию и читаемость гравировки.</p>
                 <button class="vote-btn" onclick="vote(4)">За этот!</button>
             </div>
         </div>
@@ -135,7 +163,7 @@
     }
 
     function vote(id) {
-        // Проверяем, голосовал ли уже пользователь (простая защита)
+        // Проверяем, голосовал ли уже пользователь
         if (localStorage.getItem('gift_voted')) {
             alert('Ты уже проголосовал! Спасибо за помощь.');
             return;
