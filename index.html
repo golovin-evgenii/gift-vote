@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбери дизайн термоса для Андрея!</title>
+    <style>
+        :root { --primary: #000; --bg: #f4f4f4; --card: #ffffff; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { margin: 0 0 10px; color: var(--primary); font-size: 2.5rem; }
+        p.subtitle { color: #666; font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px; }
+        
+        .stats { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+        .stat-box { background: var(--card); padding: 15px 25px; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        .stat-num { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 0.9rem; color: #888; }
+
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        .card { background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s; text-align: center; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 350px; object-fit: cover; display: block; }
+        .card-info { padding: 20px; }
+        .card h3 { margin: 0 0 10px; color: var(--primary); }
+        .card p { color: #555; margin-bottom: 15px; font-size: 0.95rem; }
+        button.vote-btn { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background 0.2s; width: 100%; }
+        button.vote-btn:hover { background-color: #333; }
+        button.voted { background-color: #ccc; color: #777; cursor: not-allowed; }
+
+        .share-block { background: #fff; padding: 40px; border-radius: 12px; text-align: center; margin-top: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .share-btn { background-color: #25D366; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: bold; }
+        .share-btn:hover { opacity: 0.9; }
+        
+        footer { text-align: center; padding: 40px 20px; color: #888; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🔥 Выбираем подарок для Андрея! 🔥</h1>
+        <p class="subtitle">Готовлю термос с гравировкой. Цитата: «Болею охотой, лечиться не буду». Помоги выбрать лучший дизайн!</p>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-num" id="votes-1">0</div>
+                <div class="stat-label">Макет 1</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="votes-2">0</div>
+                <div class="stat-label">Макет 2</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="votes-3">0</div>
+                <div class="stat-label">Макет 3</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="votes-4">0</div>
+                <div class="stat-label">Макет 4</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="gallery">
+        <!-- МАКЕТ 1 -->
+        <div class="card">
+            <img src="m1.jpg" alt="Макет 1">
+            <div class="card-info">
+                <h3>Брутальный</h3>
+                <p>Массивные буквы, максимум контраста. Для тех, кто ценит силу и лаконичность.</p>
+                <button class="vote-btn" onclick="vote(1)">За этот!</button>
+            </div>
+        </div>
+        <!-- МАКЕТ 2 -->
+        <div class="card">
+            <img src="m2.jpg" alt="Макет 2">
+            <div class="card-info">
+                <h3>Арт-каллиграфия</h3>
+                <p>Живой штрих, будто кистью. Много эмоций и характера.</p>
+                <button class="vote-btn" onclick="vote(2)">За этот!</button>
+            </div>
+        </div>
+        <!-- МАКЕТ 3 -->
+        <div class="card">
+            <img src="m3.jpg" alt="Макет 3">
+            <div class="card-info">
+                <h3>Символический</h3>
+                <p>Цитата + силуэт рогов. Метафора, которая цепляет взгляд.</p>
+                <button class="vote-btn" onclick="vote(3)">За этот!</button>
+            </div>
+        </div>
+        <!-- МАКЕТ 4 -->
+        <div class="card">
+            <img src="m4.jpg" alt="Макет 4">
+            <div class="card-info">
+                <h3>Минимализм</h3>
+                <p>Максимум воздуха, только суть. Спокойный и стильный вариант.</p>
+                <button class="vote-btn" onclick="vote(4)">За этот!</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="share-block">
+        <h3>🤝 Помоги выбрать!</h3>
+        <p style="margin-bottom: 20px;">Если ты знаешь Андрея лучше всех — твой голос самый ценный! Скинь эту ссылку его друзьям и коллегам, чтобы собрать максимум мнений.</p>
+        <button class="share-btn" onclick="shareLink()">
+            📤 Поделиться ссылкой
+        </button>
+        <p style="margin-top: 15px; font-size: 0.85rem;">Ссылка скопируется, и ты сможешь отправить её в WhatsApp, Telegram, VK или на почту.</p>
+    </div>
+</div>
+
+<footer>
+    <p>Лазерная гравировка на профессиональном станке. Идеальная читаемость даже на изгибе.</p>
+    <p>Сделано в мастерской [Твое Имя/Бренд]</p>
+</footer>
+
+<script>
+    // Простая система подсчета голосов (хранится в LocalStorage браузера)
+    function getVotes() {
+        const v1 = localStorage.getItem('gift_vote_1') || 0;
+        const v2 = localStorage.getItem('gift_vote_2') || 0;
+        const v3 = localStorage.getItem('gift_vote_3') || 0;
+        const v4 = localStorage.getItem('gift_vote_4') || 0;
+        return [v1, v2, v3, v4];
+    }
+
+    function updateStats() {
+        const votes = getVotes();
+        document.getElementById('votes-1').innerText = votes[0];
+        document.getElementById('votes-2').innerText = votes[1];
+        document.getElementById('votes-3').innerText = votes[2];
+        document.getElementById('votes-4').innerText = votes[3];
+    }
+
+    function vote(id) {
+        // Проверяем, голосовал ли уже пользователь (простая защита)
+        if (localStorage.getItem('gift_voted')) {
+            alert('Ты уже проголосовал! Спасибо за помощь.');
+            return;
+        }
+        
+        // Записываем голос
+        let current = parseInt(localStorage.getItem(`gift_vote_${id}`) || 0);
+        localStorage.setItem(`gift_vote_${id}`, current + 1);
+        
+        // Помечаем, что пользователь проголосовал
+        localStorage.setItem('gift_voted', 'true');
+        
+        alert(`Спасибо! Твой голос за Макет №${id} учтён.`);
+        updateStats();
+        
+        // Блокируем кнопки
+        document.querySelectorAll('.vote-btn').forEach(btn => {
+            btn.disabled = true;
+            btn.classList.add('voted');
+            btn.innerText = "Твой голос учтён!";
+        });
+    }
+
+    function shareLink() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Ссылка скопирована! Отправь её друзьям в любой мессенджер.');
+        }).catch(err => {
+            console.error('Ошибка копирования', err);
+            prompt('Не удалось скопировать автоматически. Скопируйте ссылку:', url);
+        });
+    }
+
+    // Инициализация при загрузке
+    updateStats();
+</script>
+
+</body>
+</html>
