@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета для гравировки термоса</title>
+    <style>
+        :root {
+            --primary: #000;
+            --bg: #f4f4f4;
+            --card: #ffffff;
+            --accent: #25D366; /* Цвет кнопки WhatsApp */
+            --border: #ddd;
+            --text-secondary: #666;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        h1 { margin: 0 0 10px; color: var(--primary); font-size: 2rem; }
+        p.subtitle { color: #666; max-width: 600px; margin: 0 auto; }
+
+        form { background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        
+        .form-group { margin-bottom: 25px; }
+        .form-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+            width: fit-content;
+        }
+        .hint {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 4px;
+            display: block;
+        }
+
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #444; }
+        input[type="text"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        /* Сетка для вариантов */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+        }
+        .option-item:hover { background: #f9f9f9; }
+        .option-item input { display: none; }
+        .option-item span { cursor: pointer; }
+        .option-item.selected {
+            background: #e8f5e9;
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        textarea { resize: vertical; min-height: 80px; }
+
+        .actions {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        button:active { transform: scale(0.98); }
+
+        .btn-submit {
+            background-color: var(--primary);
+            color: white;
+            flex: 1;
+            min-width: 200px;
+        }
+        .btn-copy {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            min-width: 180px;
+        }
+        .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+        #result-area {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: none; /* Скрыто пока не нажали кнопку */
+            white-space: pre-wrap; /* Сохраняет переносы строк */
+            font-family: monospace;
+            color: #333;
+            border-left: 5px solid var(--accent);
+        }
+        
+        footer { text-align: center; padding: 40px 20px; color: #888; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📝 Анкета для гравировки</h1>
+        <p class="subtitle">Заполни все поля, чтобы мы сделали идеальный термос. Внизу нажми «Получить результат», скопируй текст и отправь на <b>golovin.evgenii@gmail.com</b>.</p>
+    </header>
+
+    <form id="engravingForm">
+        <!-- БЛОК 1: КТО И КОМУ -->
+        <div class="form-group">
+            <span class="form-title">1. Кому предназначен термос?</span>
+            <div class="options-grid">
+                <label class="option-item"><input type="radio" name="recipient_type" value="Мужу"> Муж</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Жене"> Жена</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Подросток"> Подросток</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Коллеге"> Коллега</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Руководителю"> Руководитель</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Другу"> Друг</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Папе"> Папа</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Маме"> Мама</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Тренеру по футболу"> Тренер по футболу</label>
+                <label class="option-item"><input type="radio" name="recipient_type" value="Другое"> Другое</label>
+            </div>
+            <input type="text" name="recipient_other" placeholder="Уточните (если выбрано 'Другое')" style="margin-top:10px;">
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex:1;">
+                <label>Пол:</label>
+                <select name="gender">
+                    <option value="">Выберите...</option>
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label>Дата рождения:</label>
+                <input type="date" name="birth_date">
+            </div>
+        </div>
+        <small style="color: #666; margin-left: 10px; display: block;">Если не знаете дату, укажите примерный возраст ниже.</small>
+        <div class="form-group">
+             <input type="text" name="age_approx" placeholder="Примерный возраст (например: 35 лет)" style="width: 100%;">
+        </div>
+
+        <div class="form-group">
+            <label>ФИО получателя:</label>
+            <input type="text" name="full_name" placeholder="Например: Иванов Алексей Петрович">
+        </div>
+
+        <!-- БЛОК 2: ПОВОД -->
+        <div class="form-group">
+            <span class="form-title">2. Повод для подарка?</span>
+            <div class="options-grid">
+                <label class="option-item"><input type="radio" name="occasion" value="День рождения"> День рождения</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Юбилей"> Юбилей</label>
+                <label class="option-item"><input type="radio" name="occasion" value="23 февраля"> 23 февраля</label>
+                <label class="option-item"><input type="radio" name="occasion" value="8 марта"> 8 марта</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Новый год"> Новый год</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Корпоративный подарок"> Корпоративный подарок</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Просто так"> Просто так, без повода</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Профессиональный праздник"> Проф. праздник</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Годовщина"> Годовщина</label>
+                <label class="option-item"><input type="radio" name="occasion" value="Другое"> Другое</label>
+            </div>
+            <input type="text" name="occasion_other" placeholder="Какой именно повод?" style="margin-top:10px;">
+        </div>
+
+        <!-- БЛОК 3: ЛИЧНОСТЬ И СТИЛЬ -->
+        <div class="form-group">
+            <span class="form-title">3. Характер и стиль общения</span>
+            
+            <label>Как его ласково/в шутку называют свои?</label>
+            <input type="text" name="nickname" placeholder="Например: Михалыч, Босс, Батя">
+            <span class="hint">(Например: Алексей, Михалыч, Босс, Батя)</span>
+
+            <label style="margin-top: 15px;">Профессия / Чем занимается сейчас?</label>
+            <input type="text" name="profession" placeholder="Например: Инженер, IT-директор">
+
+            <label style="margin-top: 15px;">Чем раньше занимался?</label>
+            <input type="text" name="past_job" placeholder="Например: Был военным, работал в банке">
+
+            <label style="margin-top: 15px;">Есть ли любимая марка машины?</label>
+            <input type="text" name="car_brand" placeholder="Например: Toyota, BMW, УАЗ">
+
+            <label style="margin-top: 15px;">Какой стиль надписи нужен?</label>
+            <div class="options-grid">
+                <label class="option-item"><input type="radio" name="style" value="С юмором"> С юмором</label>
+                <label class="option-item"><input type="radio" name="style" value="С лёгким сарказмом"> С лёгким сарказмом</label>
+                <label class="option-item"><input type="radio" name="style" value="Мотивирующий"> Мотивирующий</label>
+                <label class="option-item"><input type="radio" name="style" value="Строгий / статусный"> Строгий / статусный</label>
+                <label class="option-item"><input type="radio" name="style" value="Минимализм"> Минимализм</label>
+                <label class="option-item"><input type="radio" name="style" value="Про хобби"> Про хобби</label>
+                <label class="option-item"><input type="radio" name="style" value="Семейный / тёплый"> Семейный / тёплый</label>
+                <label class="option-item"><input type="radio" name="style" value="Цитата"> Цитата</label>
+                <label class="option-item"><input type="radio" name="style" value="Другое"> Другое</label>
+            </div>
+            <input type="text" name="style_other" placeholder="Опишите свой вариант стиля" style="margin-top:10px;">
+
+            <label style="margin-top: 15px;">Насколько допустим юмор?</label>
+            <select name="humor_level">
+                <option value="Можно смело шутить"> Можно смело шутить</option>
+                <option value="Лёгкий, интеллигентный юмор"> Лёгкий, интеллигентный юмор</option>
+                <option value="Без шуток"> Без шуток</option>
+            </select>
+        </div>
+
+        <!-- БЛОК 4: ЧЕРТЫ ХАРАКТЕРА -->
+        <div class="form-group">
+            <span class="form-title">4. Главная черта характера</span>
+            <div class="options-grid">
+                <label class="option-item"><input type="checkbox" name="traits" value="Трудоголик"> Трудоголик</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Лидер"> Лидер</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Серьезный, строгий, сдержанный"> Серьезный, строгий</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Стратег"> Стратег</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Перфекционист"> Перфекционист</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Душа компании, вечно шутит"> Душа компании</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Романтик, ценит заботу"> Романтик</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Спокойный философ / интроверт"> Спокойный философ</label>
+                <label class="option-item"><input type="checkbox" name="traits" value="Другое"> Другое</label>
+            </div>
+            <input type="text" name="traits_other" placeholder="Напишите свою черту" style="margin-top:10px;">
+        </div>
+
+        <!-- БЛОК 5: УВЛЕЧЕНИЯ -->
+        <div class="form-group">
+            <span class="form-title">5. Увлечения и детали</span>
+            <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">Отметьте всё, что подходит:</p>
+            <div class="options-grid">
+                <label class="option-item"><input type="checkbox" name="interests" value="IT / программирование"> IT / программирование</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Бизнес"> Бизнес</label>
+                <label class="option-item"><input type="
