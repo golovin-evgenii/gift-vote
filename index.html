@@ -8,16 +8,18 @@
         :root { --primary: #000; --bg: #f4f4f4; --card: #ffffff; --accent: #25D366; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; line-height: 1.6; overflow-x: hidden; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        header { text-align: center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        h1 { margin: 0 0 10px; color: var(--primary); font-size: 2.5rem; }
-        p.subtitle { color: #666; font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px; }
+        header { text-align: center; padding: 40px 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { margin: 0 0 10px; color: var(--primary); font-size: 2rem; }
+        p.subtitle { color: #666; font-size: 1rem; max-width: 600px; margin: 0 auto 30px; text-align: center; }
         
+        /* Статистика голосов */
         .stats { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
         .stat-box { background: var(--card); padding: 15px 25px; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-        .stat-num { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
-        .stat-label { font-size: 0.9rem; color: #888; }
+        .stat-num { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 0.85rem; color: #888; }
 
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        /* СЕТКА МАКЕТОВ */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; }
         
         .card {
             background: var(--card);
@@ -27,95 +29,103 @@
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
+            cursor: pointer; /* Показываем, что можно кликнуть */
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
 
-        .card img {
+        /* --- СТИЛИ ДЛЯ ПРЕВЬЮ (В РЯДУ) --- */
+        /* Картинка жестко фиксируется по высоте, лишнее обрезается, но остается четкой */
+        .card img.preview-img {
             width: 100%;
-            height: 350px;
-            object-fit: cover;
+            height: 300px; 
+            object-fit: cover; /* ГЛАВНОЕ: обрезает края, но не искажает пропорции */
             display: block;
-            border-radius: 12px 12px 0 0;
             transition: transform 0.3s;
         }
-        .card:hover img {
-            transform: scale(1.02);
-        }
+        .card:hover img.preview-img { transform: scale(1.05); }
 
-        .card-info { padding: 20px; }
-        .card h3 { margin: 0 0 10px; color: var(--primary); }
-        .card p { color: #555; margin-bottom: 15px; font-size: 0.95rem; }
-        button.vote-btn { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background 0.2s; width: 100%; }
+        .card-info { padding: 15px; }
+        .card h3 { margin: 0 0 8px; color: var(--primary); text-align: center; }
+        .card p { color: #555; margin: 5px 0 15px; font-size: 0.9rem; text-align: center; }
+        
+        button.vote-btn { 
+            background-color: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            transition: background 0.2s; 
+            width: 100%; 
+        }
         button.vote-btn:hover { background-color: #333; }
-        /* Класс для текущего выбранного варианта */
         button.voted-current { background-color: #ccc; color: #777; cursor: not-allowed; }
 
-        /* Стили для модального окна */
-        .share-modal-overlay {
+        /* --- ЛАЙТБОКС (ПОЛНЫЙ РАЗМЕР) --- */
+        .lightbox-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9); 
+            z-index: 9999;
             display: none;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        .share-modal-overlay.active {
+        .lightbox-overlay.active {
             display: flex;
             opacity: 1;
         }
-        .share-modal {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: translateY(20px);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 95vh;
+            padding: 20px;
         }
-        .share-modal.active {
-            transform: translateY(0);
+
+        /* Для большой картинки: показываем целиком, не обрезая (contain) */
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 85vh; 
+            object-fit: contain; /* Важно: если 1200x1200 больше экрана — уменьшит, но ничего не отрежет */
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .modal-close {
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-lightbox {
             position: absolute;
-            top: 15px; right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #888;
-        }
-        .modal-close:hover { color: #000; }
-        .modal-title {
-            font-size: 1.4rem;
-            margin-top: 0;
-            color: var(--primary);
-        }
-        .modal-text {
-            color: #555;
-            margin-bottom: 25px;
-        }
-        .share-btn-big {
-            background-color: var(--accent);
+            top: -50px;
+            right: 0;
             color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 8px;
+            font-size: 3rem;
             cursor: pointer;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            z-index: 10000;
+            line-height: 1;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
         }
+        .close-lightbox:hover { color: var(--accent); }
+
+        /* Модальное окно шеринга */
+        .share-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); z-index: 8000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .share-modal-overlay.active { display: flex; opacity: 1; }
+        .share-modal { background: white; padding: 30px; border-radius: 16px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .share-modal.active { transform: translateY(0); }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
+        .modal-close:hover { color: #000; }
+        .modal-title { font-size: 1.4rem; margin-top: 0; color: var(--primary); }
+        .modal-text { color: #555; margin-bottom: 25px; }
+        .share-btn-big { background-color: var(--accent); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
         .share-btn-big:hover { opacity: 0.9; }
 
         footer { text-align: center; padding: 40px 20px; color: #888; font-size: 0.9rem; }
@@ -150,45 +160,54 @@
 
     <section class="gallery">
         <!-- МАКЕТ 1 -->
-        <div class="card">
-            <img src="m1.png" alt="Макет 1">
+        <div class="card" onclick="openLightbox('m1.png')">
+            <!-- Используем тот же файл m1.png. В сетке он обрежется, в лайтбоксе откроется целиком -->
+            <img src="m1.png" alt="Макет 1" class="preview-img">
             <div class="card-info">
                 <h3>Макет 1</h3>
-                <p>Вариант дизайна №1. Оцени композицию и читаемость гравировки.</p>
+                <p>Вариант дизайна №1</p>
                 <button class="vote-btn" onclick="vote(1)">За этот!</button>
             </div>
         </div>
 
         <!-- МАКЕТ 2 -->
-        <div class="card">
-            <img src="m2.png" alt="Макет 2">
+        <div class="card" onclick="openLightbox('m2.png')">
+            <img src="m2.png" alt="Макет 2" class="preview-img">
             <div class="card-info">
                 <h3>Макет 2</h3>
-                <p>Вариант дизайна №2. Оцени композицию и читаемость гравировки.</p>
+                <p>Вариант дизайна №2</p>
                 <button class="vote-btn" onclick="vote(2)">За этот!</button>
             </div>
         </div>
 
         <!-- МАКЕТ 3 -->
-        <div class="card">
-            <img src="m3.png" alt="Макет 3">
+        <div class="card" onclick="openLightbox('m3.png')">
+            <img src="m3.png" alt="Макет 3" class="preview-img">
             <div class="card-info">
                 <h3>Макет 3</h3>
-                <p>Вариант дизайна №3. Оцени композицию и читаемость гравировки.</p>
+                <p>Вариант дизайна №3</p>
                 <button class="vote-btn" onclick="vote(3)">За этот!</button>
             </div>
         </div>
 
         <!-- МАКЕТ 4 -->
-        <div class="card">
-            <img src="m4.jpg" alt="Макет 4">
+        <div class="card" onclick="openLightbox('m4.png')">
+            <img src="m4.png" alt="Макет 4" class="preview-img">
             <div class="card-info">
                 <h3>Макет 4</h3>
-                <p>Вариант дизайна №4. Оцени композицию и читаемость гравировки.</p>
+                <p>Вариант дизайна №4</p>
                 <button class="vote-btn" onclick="vote(4)">За этот!</button>
             </div>
         </div>
     </section>
+</div>
+
+<!-- ЛАЙТБОКС (ПОКАЗЫВАЕТ КАРТИНКУ ЦЕЛИКОМ) -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img src="" alt="Полный размер макета" class="lightbox-image" id="lightboxImage">
+    </div>
 </div>
 
 <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ПОДЕЛИТЬСЯ -->
@@ -197,12 +216,8 @@
         <button class="modal-close" onclick="closeShareModal()">&times;</button>
         <h2 class="modal-title">Твой голос учтён! 🎉</h2>
         <p class="modal-text">Хочешь, чтобы друзья Андрея тоже помогли выбрать лучший дизайн? Отправь им эту ссылку!</p>
-        <button class="share-btn-big" onclick="shareLink()">
-            📤 Поделиться ссылкой
-        </button>
-        <p style="margin-top: 20px; font-size: 0.85rem; color: #888;">
-            Ссылка скопируется, и ты сможешь отправить её в WhatsApp, Telegram, VK или на почту.
-        </p>
+        <button class="share-btn-big" onclick="shareLink()">📤 Поделиться ссылкой</button>
+        <p style="margin-top: 20px; font-size: 0.85rem; color: #888;">Ссылка скопируется, и ты сможешь отправить её в WhatsApp, Telegram, VK или на почту.</p>
     </div>
 </div>
 
@@ -212,6 +227,41 @@
 </footer>
 
 <script>
+    // --- ФУНКЦИИ ЛАЙТБОКСА ---
+    function openLightbox(src) {
+        const overlay = document.getElementById('lightboxOverlay');
+        const img = document.getElementById('lightboxImage');
+        
+        img.src = src;
+        overlay.classList.add('active');
+        // Чтобы картинка успела загрузиться перед анимацией, можно добавить небольшую задержку, но CSS анимации обычно хватает
+    }
+
+    function closeLightbox(e) {
+        const overlay = document.getElementById('lightboxOverlay');
+        // Закрываем, если кликнули по фону ИЛИ если кликнули по крестику
+        if (e.target === overlay || e.target.className.includes('close-lightbox')) {
+            overlay.classList.remove('active');
+        }
+    }
+
+    // Закрытие по клавише Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('lightboxOverlay').classList.remove('active');
+        }
+    });
+
+    // --- ФУНКЦИИ ГОЛОСОВАНИЯ ---
+    function getVotes() {
+        const v1 = parseInt(localStorage.getItem('gift_vote_1')) || 0;
+        const v2 = parseInt(localStorage.getItem('gift_vote_2')) || 0;
+        const v3 = parseInt(localStorage.getItem('gift_vote_3')) || 0;
+        const v4 = parseInt(localStorage.getItem('gift_vote_4')) || 0;
+        return [v1, v2, v3, v4];
+    }
+
+    // --- ФУНКЦИИ ГОЛОСОВАНИЯ ---
     function getVotes() {
         const v1 = parseInt(localStorage.getItem('gift_vote_1')) || 0;
         const v2 = parseInt(localStorage.getItem('gift_vote_2')) || 0;
@@ -227,28 +277,21 @@
         document.getElementById('votes-3').innerText = votes[2];
         document.getElementById('votes-4').innerText = votes[3];
 
-        // --- ГЛАВНОЕ ИСПРАВЛЕНИЕ ЗДЕСЬ ---
         const lastVoted = localStorage.getItem('gift_last_voted');
         
         document.querySelectorAll('.vote-btn').forEach((btn, index) => {
-            const btnId = index + 1; // 1, 2, 3, 4
+            const btnId = index + 1; 
             
             if (String(btnId) === lastVoted) {
-                // Это текущий выбор пользователя
                 btn.classList.add('voted-current');
-                btn.disabled = true; // Блокируем кнопку
+                btn.disabled = true;
                 btn.innerText = "Твой выбор";
-                
-                // Убираем onclick, чтобы нельзя было случайно кликнуть и вызвать алерт
                 btn.removeAttribute('onclick'); 
             } else {
-                // Это НЕ текущий выбор (сюда попадает и старый голос, если человек переголосовал)
                 btn.classList.remove('voted-current');
                 btn.disabled = false;
                 btn.innerText = "За этот!";
-                
                 // Восстанавливаем обработчик клика
-                // Мы используем setAttribute, чтобы вернуть onclick="vote(X)"
                 btn.setAttribute('onclick', `vote(${btnId})`);
             }
         });
@@ -257,7 +300,6 @@
     function vote(newId) {
         const oldId = localStorage.getItem('gift_last_voted');
 
-        // Если человек голосует за тот же вариант, что и раньше — ничего не делаем
         if (oldId == newId) {
             alert('Ты уже выбрал этот вариант!');
             return;
@@ -270,8 +312,9 @@
             const oldName = `Макет ${oldId}`;
             const newName = `Макет ${newId}`;
             
+            // ВОТ ЭТА СТРОКА, КОТОРАЯ ОБРЫВАЛАСЬ:
             if (!confirm(`Ты уже голосовал за ${oldName}. Хочешь поменять голос на ${newName}? Старый голос будет удалён.`)) {
-                return; // Пользователь нажал "Отмена", ничего не меняем
+                return; // Пользователь нажал "Отмена", выходим из функции
             }
             
             confirmMessage = `Отлично! Ты сменил голос с ${oldName} на ${newName}.`;
@@ -288,13 +331,13 @@
         // Запоминаем, за кого теперь голосуем
         localStorage.setItem('gift_last_voted', newId);
 
-        updateStats(); // <-- Здесь теперь всё перерисуется правильно
+        updateStats();
         
         // Показываем окно для шеринга
         showShareModal();
     }
 
-    // Функции для модального окна
+    // Функции для модального окна шеринга
     function showShareModal() {
         const modal = document.getElementById('shareModal');
         modal.classList.add('active');
@@ -323,9 +366,6 @@
         });
     }
 
-    // Инициализация при загрузке
+    // Инициализация при загрузке страницы
     updateStats();
 </script>
-
-</body>
-</html>
