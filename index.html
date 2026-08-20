@@ -50,6 +50,7 @@
         .card p { color: #555; margin-bottom: 15px; font-size: 0.95rem; }
         button.vote-btn { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background 0.2s; width: 100%; }
         button.vote-btn:hover { background-color: #333; }
+        /* Класс для текущего выбранного варианта */
         button.voted-current { background-color: #ccc; color: #777; cursor: not-allowed; }
 
         /* Стили для модального окна */
@@ -58,7 +59,7 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
-            display: none; /* Скрыто по умолчанию */
+            display: none;
             justify-content: center;
             align-items: center;
             opacity: 0;
@@ -226,15 +227,29 @@
         document.getElementById('votes-3').innerText = votes[2];
         document.getElementById('votes-4').innerText = votes[3];
 
-        // Визуально подсвечиваем текущий выбор пользователя
+        // --- ГЛАВНОЕ ИСПРАВЛЕНИЕ ЗДЕСЬ ---
         const lastVoted = localStorage.getItem('gift_last_voted');
+        
         document.querySelectorAll('.vote-btn').forEach((btn, index) => {
-            if (String(index + 1) === lastVoted) {
+            const btnId = index + 1; // 1, 2, 3, 4
+            
+            if (String(btnId) === lastVoted) {
+                // Это текущий выбор пользователя
                 btn.classList.add('voted-current');
-                btn.removeAttribute('onclick'); // Блокируем повторный клик по своему же варианту
+                btn.disabled = true; // Блокируем кнопку
                 btn.innerText = "Твой выбор";
+                
+                // Убираем onclick, чтобы нельзя было случайно кликнуть и вызвать алерт
+                btn.removeAttribute('onclick'); 
             } else {
+                // Это НЕ текущий выбор (сюда попадает и старый голос, если человек переголосовал)
                 btn.classList.remove('voted-current');
+                btn.disabled = false;
+                btn.innerText = "За этот!";
+                
+                // Восстанавливаем обработчик клика
+                // Мы используем setAttribute, чтобы вернуть onclick="vote(X)"
+                btn.setAttribute('onclick', `vote(${btnId})`);
             }
         });
     }
@@ -273,9 +288,9 @@
         // Запоминаем, за кого теперь голосуем
         localStorage.setItem('gift_last_voted', newId);
 
-        updateStats();
+        updateStats(); // <-- Здесь теперь всё перерисуется правильно
         
-        // ВАЖНО: Сразу показываем модальное окно для шеринга
+        // Показываем окно для шеринга
         showShareModal();
     }
 
@@ -283,7 +298,6 @@
     function showShareModal() {
         const modal = document.getElementById('shareModal');
         modal.classList.add('active');
-        // Плавное появление
         setTimeout(() => {
             modal.style.display = 'flex';
         }, 50);
@@ -292,7 +306,6 @@
     function closeShareModal() {
         const modal = document.getElementById('shareModal');
         modal.classList.remove('active');
-        // Скрываем через 0.3с, чтобы проигралась анимация исчезновения
         setTimeout(() => {
             modal.style.display = 'none';
         }, 300);
@@ -302,7 +315,7 @@
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
             alert('Ссылка скопирована! Отправь её друзьям в любой мессенджер.');
-            closeShareModal(); // Закрываем окно после копирования
+            closeShareModal();
         }).catch(err => {
             console.error('Ошибка копирования', err);
             prompt('Не удалось скопировать автоматически. Скопируйте ссылку:', url);
