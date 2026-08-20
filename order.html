@@ -277,4 +277,146 @@
             <div class="options-grid">
                 <label class="option-item"><input type="checkbox" name="interests" value="IT / программирование"> IT / программирование</label>
                 <label class="option-item"><input type="checkbox" name="interests" value="Бизнес"> Бизнес</label>
-                <label class="option-item"><input type="
+                <label class="option-item"><input type="checkbox" name="interests" value="Чай"> Чай</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Дача / Сад"> Дача / Сад</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Стройка"> Стройка</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Умный дом"> Умный дом</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Походы"> Походы</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Горы"> Горы</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Природа"> Природа</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Кемпинг"> Кемпинг</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Мотоциклы"> Мотоциклы</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Гаджеты"> Гаджеты</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Видеоигры"> Видеоигры</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Фитнес"> Фитнес</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="ЗОЖ"> ЗОЖ</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Путешествия"> Путешествия</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Пьет кофе/чай в дороге"> Пьет кофе/чай по дороге на работу</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Свой дом"> Свой дом</label>
+                <label class="option-item"><input type="checkbox" name="interests" value="Другое"> Другое</label>
+            </div>
+            <input type="text" name="interests_other" placeholder="Напишите свои увлечения" style="margin-top:10px;">
+        </div>
+
+        <!-- БЛОК 6: ФОРМАТ И ИКОНКА -->
+        <div class="form-group">
+            <span class="form-title">6. Технические детали гравировки</span>
+            
+            <label>Формат надписи:</label>
+            <div class="options-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                <label class="option-item"><input type="radio" name="text_format" value="Короткая (1–3 слова)"> Короткая (1–3 слова)</label>
+                <label class="option-item"><input type="radio" name="text_format" value="Средняя (1 строка)"> Средняя (1 строка)</label>
+                <label class="option-item"><input type="radio" name="text_format" value="Развёрнутая фраза"> Развёрнутая фраза</label>
+            </div>
+
+            <label style="margin-top: 15px;">Нужно ли добавить символ / иконку?</label>
+            <select name="icon_needed">
+                <option value="Нет"> Нет, только текст</option>
+                <option value="Да, предложите варианты"> Да, предложите варианты</option>
+                <option value="Хочу конкретную иконку"> Хочу конкретную иконку</option>
+            </select>
+            <input type="text" name="icon_custom" placeholder="Какая именно иконка? (например: корона, якорь, код, машина)" style="margin-top:10px; display:none;">
+            
+            <script>
+                const iconSelect = document.querySelector('select[name="icon_needed"]');
+                const iconCustom = document.querySelector('input[name="icon_custom"]');
+                if(iconSelect && iconCustom) {
+                    iconSelect.addEventListener('change', () => {
+                        if(iconSelect.value === 'Хочу конкретную иконку') {
+                            iconCustom.style.display = 'block';
+                            iconCustom.required = true;
+                        } else {
+                            iconCustom.style.display = 'none';
+                            iconCustom.required = false;
+                        }
+                    });
+                }
+            </script>
+        </div>
+
+        <!-- КНОПКИ ДЕЙСТВИЯ -->
+        <div class="actions">
+            <button type="button" class="btn-submit" onclick="generateResult()">Получить результат</button>
+            <button type="button" class="btn-copy" onclick="copyResult()" id="copyBtn" disabled>Скопировать результат</button>
+        </div>
+    </form>
+
+    <!-- ОБЛАСТЬ ВЫВОДА РЕЗУЛЬТАТА -->
+    <div id="result-area"></div>
+</div>
+
+<footer>
+    <p>Сделано для проекта термосов. Результат можно отправить на golovin.evgenii@gmail.com</p>
+</footer>
+
+<script>
+    function getCheckedValues(name) {
+        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+        return Array.from(checkboxes).map(cb => cb.parentElement.textContent.trim());
+    }
+
+    function generateResult() {
+        const form = document.getElementById('engravingForm');
+        const data = new FormData(form);
+        const obj = Object.fromEntries(data.entries());
+
+        const traits = getCheckedValues('traits');
+        const interests = getCheckedValues('interests');
+
+        let traitsText = traits.length ? traits.join(', ') : 'Не указано';
+        let interestsText = interests.length ? interests.join(', ') : 'Не указано';
+
+        const iconText = obj.icon_needed === 'Хочу конкретную иконку' ? obj.icon_custom : 
+                          (obj.icon_needed === 'Да, предложите варианты' ? 'Нужна иконка (предложите)' : 'Без иконки');
+
+        const resultText = `
+=== ЗАКАЗ НА ГРАВИРОВКУ ТЕРМОСА ===
+
+👤 ПОЛУЧАТЕЛЬ:
+Кому: ${obj.recipient_type || 'Не выбрано'} ${obj.recipient_other ? `(${obj.recipient_other})` : ''}
+ФИО: ${obj.full_name || 'Не указано'}
+Пол: ${obj.gender || 'Не указан'}
+Возраст / Дата: ${obj.birth_date ? obj.birth_date : (obj.age_approx || 'Не указано')}
+Ласковое имя: ${obj.nickname || 'Нет'}
+
+🎁 ПОВОД:
+Повод: ${obj.occasion || 'Не выбран'} ${obj.occasion_other ? `(${obj.occasion_other})` : ''}
+
+🧠 ХАРАКТЕР И СТИЛЬ:
+Профессия (сейчас): ${obj.profession || 'Не указана'}
+Чем занимался раньше: ${obj.past_job || 'Не указано'}
+Любимая машина: ${obj.car_brand || 'Не указана'}
+Стиль надписи: ${obj.style || 'Не выбран'} ${obj.style_other ? `(${obj.style_other})` : ''}
+Юмор: ${obj.humor_level || 'Не указан'}
+Главные черты: ${traitsText}
+
+🎨 УВЛЕЧЕНИЯ:
+Интересы: ${interestsText}
+${obj.interests_other ? 'Дополнительно: ' + obj.interests_other : ''}
+
+📝 ТЕХНИЧЕСКИЕ ДЕТАЛИ:
+Формат текста: ${obj.text_format || 'Не выбран'}
+Иконка: ${iconText}
+
+===================================
+        `.trim();
+
+        const area = document.getElementById('result-area');
+        area.textContent = resultText;
+        area.style.display = 'block';
+        
+        document.getElementById('copyBtn').disabled = false;
+    }
+
+    function copyResult() {
+        const text = document.getElementById('result-area').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('✅ Текст скопирован в буфер обмена! Теперь можно вставить в почту или Telegram.');
+        }).catch(err => {
+            console.error('Ошибка копирования', err);
+            alert('Не удалось скопировать (попробуйте выделить текст вручную).');
+        });
+    }
+</script>
+</body>
+</html>
