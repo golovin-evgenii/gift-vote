@@ -19,7 +19,6 @@
 
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
         
-        /* Улучшенные стили для карточек */
         .card {
             background: var(--card);
             border-radius: 12px;
@@ -51,7 +50,8 @@
         .card p { color: #555; margin-bottom: 15px; font-size: 0.95rem; }
         button.vote-btn { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background 0.2s; width: 100%; }
         button.vote-btn:hover { background-color: #333; }
-        button.voted { background-color: #ccc; color: #777; cursor: not-allowed; }
+        /* Кнопка становится серой только если это текущий выбранный голос пользователя */
+        button.voted-current { background-color: #ccc; color: #777; cursor: not-allowed; }
 
         .share-block { background: #fff; padding: 40px; border-radius: 12px; text-align: center; margin-top: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .share-btn { background-color: #25D366; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: bold; }
@@ -145,12 +145,11 @@
 </footer>
 
 <script>
-    // Простая система подсчета голосов (хранится в LocalStorage браузера)
     function getVotes() {
-        const v1 = localStorage.getItem('gift_vote_1') || 0;
-        const v2 = localStorage.getItem('gift_vote_2') || 0;
-        const v3 = localStorage.getItem('gift_vote_3') || 0;
-        const v4 = localStorage.getItem('gift_vote_4') || 0;
+        const v1 = parseInt(localStorage.getItem('gift_vote_1')) || 0;
+        const v2 = parseInt(localStorage.getItem('gift_vote_2')) || 0;
+        const v3 = parseInt(localStorage.getItem('gift_vote_3')) || 0;
+        const v4 = parseInt(localStorage.getItem('gift_vote_4')) || 0;
         return [v1, v2, v3, v4];
     }
 
@@ -160,31 +159,63 @@
         document.getElementById('votes-2').innerText = votes[1];
         document.getElementById('votes-3').innerText = votes[2];
         document.getElementById('votes-4').innerText = votes[3];
+
+        // Визуально подсвечиваем тот вариант, за который проголосовал текущий пользователь
+        const lastVoted = localStorage.getItem('gift_last_voted');
+        document.querySelectorAll('.vote-btn').forEach((btn, index) => {
+            if (String(index + 1) === lastVoted) {
+                btn.classList.add('voted-current');
+                btn.removeAttribute('onclick'); // Блокируем повторный клик по своему же варианту
+                btn.innerText = "Твой выбор";
+            } else {
+                btn.classList.remove('voted-current');
+                // Восстанавливаем обработчик, если он был удален (на случай, если пользователь сбросил голос через другой метод, но тут у нас только смена)
+                if (!btn.getAttribute('onclick')) {
+                     // В рамках этой логики мы не будем восстанавливать onclick динамически, 
+                     // так как смена голоса происходит через клик по ДРУГОЙ кнопке.
+                     // Но если нужно, можно добавить data-id и перевесить слушатель.
+                     // Для простоты оставим как есть: свой вариант неактивен, другие активны.
+                }
+            }
+        });
     }
 
-    function vote(id) {
-        // Проверяем, голосовал ли уже пользователь
-        if (localStorage.getItem('gift_voted')) {
-            alert('Ты уже проголосовал! Спасибо за помощь.');
+    function vote(newId) {
+        const oldId = localStorage.getItem('gift_last_voted');
+
+        // Если человек голосует за тот же вариант, что и раньше — ничего не делаем
+        if (oldId == newId) {
+            alert('Ты уже выбрал этот вариант!');
             return;
         }
+
+        let confirmMessage = `Спасибо за мнение!`;
         
-        // Записываем голос
-        let current = parseInt(localStorage.getItem(`gift_vote_${id}`) || 0);
-        localStorage.setItem(`gift_vote_${id}`, current + 1);
-        
-        // Помечаем, что пользователь проголосовал
-        localStorage.setItem('gift_voted', 'true');
-        
-        alert(`Спасибо! Твой голос за Макет №${id} учтён.`);
+        // Если уже голосовал за другой вариант — спрашиваем подтверждение на смену
+        if (oldId) {
+            const oldName = `Макет ${oldId}`;
+            const newName = `Макет ${newId}`;
+            
+            if (!confirm(`Ты уже голосовал за ${oldName}. Хочешь поменять голос на ${newName}? Старый голос будет удалён.`)) {
+                return; // Пользователь нажал "Отмена", ничего не меняем
+            }
+            
+            confirmMessage = `Отлично! Ты сменил голос с ${oldName} на ${newName}.`;
+
+            // Убираем старый голос
+            let oldCount = parseInt(localStorage.getItem(`gift_vote_${oldId}`)) || 0;
+            localStorage.setItem(`gift_vote_${oldId}`, Math.max(0, oldCount - 1));
+        }
+
+        // Добавляем новый голос
+        let currentCount = parseInt(localStorage.getItem(`gift_vote_${newId}`)) || 0;
+        localStorage.setItem(`gift_vote_${newId}`, currentCount + 1);
+
+        // Запоминаем, за кого теперь голосуем
+        localStorage.setItem('gift_last_voted', newId);
+
+        alert(confirmMessage);
         updateStats();
-        
-        // Блокируем кнопки
-        document.querySelectorAll('.vote-btn').forEach(btn => {
-            btn.disabled = true;
-            btn.classList.add('voted');
-            btn.innerText = "Твой голос учтён!";
-        });
     }
 
     function shareLink() {
