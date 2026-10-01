@@ -1,4 +1,3 @@
-// ВАЖНО: нужно для GigaChat, потому что у Сбера бывают проблемы с TLS-сертификатом
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 let tokenCache = {
