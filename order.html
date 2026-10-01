@@ -424,7 +424,8 @@
 
 <script>
     // --- ГЛАВНЫЙ СКРИПТ: ПОДЦВЕТКА И СБОР ДАННЫХ ---
-
+const AI_API_URL = 'https://gift-ai-proxy.golovin-evgenii.workers.dev';
+    
     // 1. Подсветка выбранных вариантов (зеленым) при клике
     document.addEventListener('DOMContentLoaded', () => {
         const options = document.querySelectorAll('.option-item');
@@ -566,7 +567,7 @@ requestQuotes(resultText);
 
 // Здесь будет адрес вашего Cloudflare Worker.
 // Его получите после настройки Worker.
-const AI_API_URL = 'https://gift-ai-proxy.golovin-evgenii.workers.dev';
+
 
 let lastPromptText = '';
 let selectedQuote = '';
